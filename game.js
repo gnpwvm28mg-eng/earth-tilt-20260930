@@ -44,7 +44,7 @@ class EchoGame {
     if(Math.hypot(this.ball.x-this.goal.x,this.ball.y-this.goal.y)<24){
       this.completed++;this.score=this.completed*500+this.stars*100+Math.floor(Math.max(0,this.duration-this.elapsed)*10);
       if(this.completed===3){this.finish('survived');return;}
-      this.options.onEvent?.('过关！地球又歪了一点');this.level++;this.buildLevel();this.pointer=null;this.keys.clear();this.emit();
+      this.options.onEvent?.('过关！地球又歪了一点');this.level++;this.buildLevel();this.emit();
     }
     if(this.elapsed-this.lastUpdate>.08){this.lastUpdate=this.elapsed;this.emit();}
     if(this.elapsed>=this.duration)this.finish('timeout');
