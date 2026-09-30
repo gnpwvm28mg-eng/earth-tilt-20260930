@@ -1,5 +1,12 @@
 (()=>{'use strict';
 const $=id=>document.getElementById(id),params=new URLSearchParams(location.search);
+const gameRegion=document.querySelector('.game-wrap');
+function permitsSelection(target){return target instanceof Element&&!!target.closest('input,textarea,[contenteditable="true"]')}
+for(const type of ['selectstart','contextmenu'])gameRegion.addEventListener(type,e=>{if(!permitsSelection(e.target))e.preventDefault()});
+for(const control of [$('game'),$('brake')]){
+  for(const type of ['touchstart','touchmove'])control.addEventListener(type,e=>{if(e.cancelable)e.preventDefault()},{passive:false});
+  control.addEventListener('pointerdown',()=>{const selection=window.getSelection();if(selection&&!selection.isCollapsed)selection.removeAllRanges()});
+}
 const n=Number(params.get('seed')),day=new Date().toLocaleDateString('en-CA',{timeZone:'Asia/Shanghai'});
 let seed=Number.isInteger(n)&&n>0&&n<=4294967295?n:hash(day),target=null,last=null,playing=false,muted=true,audio=null,eventTimer,toastTimer;
 const beat=Number(params.get('beat'));if(params.get('v')==='2'&&params.has('beat')&&Number.isFinite(beat)&&beat>=0&&beat<=100000)target=Math.floor(beat);
